@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd ">
+
+
+
+    <mvc:annotation-driven />
+
+    <!-- 1.扫描Controller -->
+    <context:component-scan base-package="com.spirit.demo.**.web"/>
+
+    <!-- 2.视图处理 -->
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="favorPathExtension" value="false" />
+        <property name="favorParameter" value="true" />
+        <property name="parameterName" value="contentType" />
+        <property name="mediaTypes">
+            <value>
+                html=text/html
+                xml=application/xml
+                json=application/json
+            </value>
+        </property>
+        <property name="defaultContentType" value="application/json"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="0" />
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+
+        <property name="defaultViews">
+            <list>
+                <bean class="com.spirit.demo.common.MappingJacksonJsonView">
+                    <property name="extractValueFromSingleKeyModel" value="true" />
+                    <property name="prettyPrint" value="true" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp" />
+        <property name="order" value="100" />
+    </bean>
+
+    <!-- 3. 拦截器设置 -->
+    <!--
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.weibo.topic.commons.interceptor.*"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+     -->
+    <!-- <bean id="abnormalResponseResolver" class="com.weibo.topic.commons.response.AbResponseExceptionResolver" />-->
+
+    <mvc:resources mapping="/resources/**" location="classpath:resources"/>
+
+</beans>
