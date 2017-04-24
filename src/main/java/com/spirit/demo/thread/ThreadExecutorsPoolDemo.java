@@ -2,6 +2,7 @@ package com.spirit.demo.thread;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import java.util.logging.Logger;
 
 /**
@@ -10,6 +11,7 @@ import java.util.logging.Logger;
 public class ThreadExecutorsPoolDemo {
 
     private static final Logger log = Logger.getLogger(ThreadExecutorsPoolDemo.class.getName());
+
 
     private ThreadPoolExecutor threadPool = null;
 
@@ -97,7 +99,9 @@ public class ThreadExecutorsPoolDemo {
 
     public static void main(String[] args){
         ThreadExecutorsPoolDemo demo = new ThreadExecutorsPoolDemo();
+
 //        demo.deal();
         log.info("just a test!");
+        demo.deal();
     }
 }
