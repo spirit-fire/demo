@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <import resource="classpath:spring/content/mc/readability-mc.xml"/>
+
+    <bean id="readabilityDealWithMcqDao" class="com.spirit.demo.readability.dao.impl.ReadabilityDealWithMcqDaoImpl" lazy-init="true">
+        <property name="gkMemcacheClient" ref="gkMemcacheClient"/>
+    </bean>
+
+    <bean id="readabilityStart" class="com.spirit.demo.readability.service.ReadabilityService" lazy-init="true">
+        <property name="readabilityDealWithMcqDao" ref="readabilityDealWithMcqDao"/>
+    </bean>
+
+</beans>
